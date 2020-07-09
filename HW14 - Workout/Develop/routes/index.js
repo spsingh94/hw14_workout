@@ -23,12 +23,15 @@ router.post("/api/workouts", (req, res) => {
 
 router.put("/api/workouts:id", (req, res) => {
     // push new exercise
-
+    db.workout.update({_id = Mongoose.type.ObjectId(req.body), $set:{$push:{excercise: req.body}}
     // update workout by id (db.workout.find({_id = Mongoose.type.ObjectId(req.
-       
+       .then(data => {res.json(data)})
+       .catch(err => {res.json (err)})
         // with req.body data 
         // $set:{$push:{excercis: req.body}}
         // respond with db response
+
+
 });
 
 // html routes
