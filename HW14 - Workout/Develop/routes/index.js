@@ -14,7 +14,7 @@ router.put("/api/workouts/:id", (req, res) => {
     // push new exercise
     // Workouts.update({_id = Mongoose.type.ObjectId(req.body), $set:{$push:{excercise: req.body}}
     // db.animals.update({"_id":ObjectId("5ef8c8ae7359b93c4827f48f")}, {$push: {"age":24}})
-    Workouts.update({_id = Mongoose.type.ObjectId(req.body)}, {$push: {excercise: req.body}})
+    Workouts.update(req.params.id, {$push: {excercise: req.body}}, { new: true, runValidators: true })
     .then(data => {res.json(data)})
     .catch(err => {res.json (err)})
 });
