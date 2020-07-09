@@ -1,37 +1,28 @@
 const router = require("express").Router();
 const path = require("path");
-
-// database
-const db = require("../models");
+const Workouts = require("../models/Workout")
 
 // api routes
-router.get("/api/workouts", (req, res) => {
-    // res.json all the workouts
-    db.Workouts.find()
-        .then( data => {res.json(data)})
-        .catch( e => {res.json(e)})
-});
 
 router.post("/api/workouts", (req, res) => {
-    workout = new db.Workouts();
-    workout.calcTotalDuration();
-
-    db.Workouts.create(workout)
-        .then( data => {res.json(data)})
-        .catch( e => {res.json(e)})
+Workouts.create({})
+.then((dbWorkout) => {res.json(dbWorkout)})
+.catch(err => {res.json(err)})
 });
 
-router.put("/api/workouts:id", (req, res) => {
+router.put("/api/workouts/:id", (req, res) => {
     // push new exercise
-    db.workout.update({_id = Mongoose.type.ObjectId(req.body), $set:{$push:{excercise: req.body}}
-    // update workout by id (db.workout.find({_id = Mongoose.type.ObjectId(req.
-       .then(data => {res.json(data)})
-       .catch(err => {res.json (err)})
-        // with req.body data 
-        // $set:{$push:{excercis: req.body}}
-        // respond with db response
+    // Workouts.update({_id = Mongoose.type.ObjectId(req.body), $set:{$push:{excercise: req.body}}
+    // db.animals.update({"_id":ObjectId("5ef8c8ae7359b93c4827f48f")}, {$push: {"age":24}})
+    Workouts.update({_id = Mongoose.type.ObjectId(req.body)}, {$push: {excercise: req.body}})
+    .then(data => {res.json(data)})
+    .catch(err => {res.json (err)})
+});
 
-
+router.get("/api/workouts", (req, res) => {
+    Workouts.find({})
+        .then( data => {res.json(data)})
+        .catch( err => {res.json(err)})
 });
 
 // html routes
@@ -42,4 +33,7 @@ router.get("/exercise", (req, res) => {
 router.get("/stats", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/stats.html"));   
 });
+
+
+
 module.exports = router;
